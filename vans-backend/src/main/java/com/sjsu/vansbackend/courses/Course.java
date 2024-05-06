@@ -2,7 +2,6 @@ package com.sjsu.vansbackend.courses;
 
 import com.sjsu.vansbackend.assignments.Assignment;
 import com.sjsu.vansbackend.quiz.Quiz;
-import com.sjsu.vansbackend.userModel.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,13 +18,13 @@ public class Course {
 
   String description;
 
-  @ManyToOne
-  @JoinTable(name = "professor")
-  UserEntity professor;
-
-  @ManyToMany
-  @JoinTable(name = "students")
-  List<UserEntity> students;
+//  @ManyToOne
+//  @JoinTable(name = "professor")
+//  UserEntity professor;
+//
+//  @ManyToMany
+//  @JoinTable(name = "students")
+//  List<UserEntity> students;
 
   Boolean isPublished;
 
@@ -44,13 +43,12 @@ public class Course {
   public Course(
       String name,
       String description,
-      UserEntity professor,
+
       Boolean isPublished,
       String syllabus,
       String term) {
     this.name = name;
     this.description = description;
-    this.professor = professor;
     this.isPublished = isPublished;
     this.syllabus = syllabus;
     this.term = term;

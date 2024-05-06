@@ -25,13 +25,13 @@ public class CourseController {
     }
 
     // Get all course objects
-    @GetMapping("/list/student/{username}")
-    public List<Course> getAllCoursesByStudentUsername(@PathVariable String username) {
-        return courseService.getCoursesByStudentsUsername(username);
-    }
-
-    @GetMapping("/list/professor/{username}")
-    public List<Course> getAllCoursesByProfessorUsername(@PathVariable String username) {
-        return courseService.getCourseByProfessorUsername(username);
-    }
+//    @GetMapping("/list/student/{username}")
+//    public List<Course> getAllCoursesByStudentUsername(@PathVariable String username) {
+//        return courseService.getCoursesByStudentsUsername(username);
+//    }
+//
+//    @GetMapping("/list/professor/{username}")
+//    public List<Course> getAllCoursesByProfessorUsername(@PathVariable String username) {
+//        return courseService.getCourseByProfessorUsername(username);
+//    }
 }

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, String> {
-  List<Course> findByProfessorUsername(String username);
+//  List<Course> findByProfessorUsername(String username);
 
   Optional<Course> findCourseByCourseId(String courseId);
 
-  List<Course> findCoursesByProfessorUsername(String username);
-
-  List<Course> findCoursesByStudentsUsername(String username);
+//  List<Course> findCoursesByProfessorUsername(String username);
+//
+//  List<Course> findCoursesByStudentsUsername(String username);
 }

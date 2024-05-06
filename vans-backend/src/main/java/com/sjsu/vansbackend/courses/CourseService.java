@@ -23,13 +23,13 @@ public class CourseService {
     courseRepository.save(course);
   }
 
-  public List<Course> getCourseByProfessorUsername(String username) {
-    return courseRepository.findCoursesByProfessorUsername(username);
-  }
-
-  public List<Course> getCoursesByStudentsUsername(String username) {
-    return courseRepository.findCoursesByStudentsUsername(username);
-  }
+//  public List<Course> getCourseByProfessorUsername(String username) {
+//    return courseRepository.findCoursesByProfessorUsername(username);
+//  }
+//
+//  public List<Course> getCoursesByStudentsUsername(String username) {
+//    return courseRepository.findCoursesByStudentsUsername(username);
+//  }
 
   //    public void deleteCourse(String courseId) {
   //        courseRepository.deleteById(courseId);
