@@ -1,8 +1,6 @@
 package com.sjsu.vansbackend.userModel;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,27 +9,30 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   @Autowired private UserRepository userRepository;
-
-  // Create
-  public void addUser(User user) {
-    // Saving user object to DB
+// Create
+  public void addUser(UserEntity user) {
     userRepository.save(user);
   }
 
-  // Retrieve
-
-  // Getting all User objects based on username
-  public Optional<User> getUser(String username) {
-    return userRepository.findByUsername(username);
+  public UserEntity getUser(String email) {
+    return userRepository.findByEmail(email);
   }
-
-  // Getting all User objects
-  public List<User> getAllUsers() {
+  public List<UserEntity> getAllUsers() {
     return new ArrayList<>(userRepository.findAll());
   }
 
+
+  public UserEntity saveUser(UserEntity user) {
+
+    user.setUsername(user.getUsername());
+    user.setEmail(user.getEmail());
+    user.setPassword(user.getPassword());
+    userRepository.save(user);
+    return user;
+  }
+
   // Update
-  public void updateUser(User user) {
+  public void updateUser(UserEntity user) {
     userRepository.save(user);
   }
 
@@ -39,4 +40,6 @@ public class UserService {
   public void deleteUser(String username) {
     userRepository.deleteById(username);
   }
+
+
 }

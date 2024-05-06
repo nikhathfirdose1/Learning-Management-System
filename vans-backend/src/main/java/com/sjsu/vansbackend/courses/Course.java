@@ -1,6 +1,8 @@
 package com.sjsu.vansbackend.courses;
 
-import com.sjsu.vansbackend.userModel.User;
+import com.sjsu.vansbackend.assignments.Assignment;
+import com.sjsu.vansbackend.quiz.Quiz;
+import com.sjsu.vansbackend.userModel.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +19,13 @@ public class Course {
 
   String description;
 
-  @ManyToOne User professor;
+  @ManyToOne
+  @JoinTable(name = "professor")
+  UserEntity professor;
 
-  @ManyToMany(mappedBy = "courses")
-  List<User> students;
+  @ManyToMany
+  @JoinTable(name = "students")
+  List<UserEntity> students;
 
   Boolean isPublished;
 
@@ -29,10 +34,17 @@ public class Course {
 
   String term;
 
+  @OneToMany(mappedBy = "course")
+    List<Assignment> assignments;
+
+  @OneToMany(mappedBy = "course")
+    List<Quiz> quizzes;
+
+
   public Course(
       String name,
       String description,
-      User professor,
+      UserEntity professor,
       Boolean isPublished,
       String syllabus,
       String term) {
@@ -42,5 +54,6 @@ public class Course {
     this.isPublished = isPublished;
     this.syllabus = syllabus;
     this.term = term;
+
   }
 }

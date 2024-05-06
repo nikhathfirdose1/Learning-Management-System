@@ -11,7 +11,7 @@ public class UserDao {
   private String username;
   private String name;
   private String password;
-  private Integer roles;
+  private String roles;
   private boolean active;
   private String email;
   private String description;

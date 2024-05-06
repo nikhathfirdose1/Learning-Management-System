@@ -2,7 +2,15 @@ package com.sjsu.vansbackend.userModel;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,17 +19,43 @@ public class UserController {
 
   @Autowired private UserService userService;
 
-  // Retrieve (GET Request)
+  @Autowired
+    private PasswordEncoder passwordEncoder;
 
-  // Get user object based on username
-  @GetMapping("/{username}")
-  public Optional<User> getUserInfo(@PathVariable String username) {
-    return userService.getUser(username);
+  @GetMapping("/")
+  public String homeMessage() {
+    return "Welcome to the home page";
   }
 
-  // Get all user objects
+  @PostMapping("/save")
+  public ResponseEntity<Object> saveUser(@RequestBody UserEntity user) {
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    UserEntity res = userService.saveUser(user);
+   if(res.getId() >0 ){
+     return ResponseEntity.ok().body("User saved successfully");
+   }else{
+        return ResponseEntity.badRequest().body("Error. User not saved");
+   }
+  }
+
   @GetMapping("/all")
-  public List<User> loginMessage() {
-    return userService.getAllUsers();
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public ResponseEntity<Object> getAllUsers() {
+    return ResponseEntity.ok().body(userService.getAllUsers());
   }
+
+  @GetMapping("/single")
+  @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+  public ResponseEntity<Object> getUserDetails() {
+    return ResponseEntity.ok().body(userService.getUser(getLoggedUserInfo().getUsername()));
+  }
+
+  public UserEntity getLoggedUserInfo() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null && auth.getPrincipal() instanceof UserEntity) {
+      return (UserEntity) auth.getPrincipal();
+    }
+    return null;
+  }
+
 }
