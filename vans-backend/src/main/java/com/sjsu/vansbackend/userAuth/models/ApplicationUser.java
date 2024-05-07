@@ -4,22 +4,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.sjsu.vansbackend.courses.Course;
+import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-
 @Entity
 @Table(name="users")
+@Data
 public class ApplicationUser implements UserDetails{
 
     @Id
@@ -37,11 +30,17 @@ public class ApplicationUser implements UserDetails{
     )
     private Set<Role> authorities;
 
-    public ApplicationUser() {
+	@OneToMany(mappedBy = "professor")
+	private Set<Course> taughtCourses = new HashSet<>(); // Courses taught by this user (professor)
+
+	@ManyToMany
+	private Set<Course> enrolledCourses = new HashSet<>(); // Courses enrolled by this user (student)
+
+
+	public ApplicationUser() {
 		super();
 		authorities = new HashSet<>();
 	}
-	
 
 	public ApplicationUser(Integer userId, String username, String password, Set<Role> authorities) {
 		super();
@@ -49,19 +48,17 @@ public class ApplicationUser implements UserDetails{
 		this.username = username;
 		this.password = password;
 		this.authorities = authorities;
-	}
 
-    public Integer getUserId() {
-		return this.userId;
 	}
-	
-	public void setId(Integer userId) {
-		this.userId = userId;
-	}
-	
-	public void setAuthorities(Set<Role> authorities) {
-		this.authorities = authorities;
-	}
+//	public ApplicationUser(Integer userId, String username, String password, Set<Role> authorities, Set<Course> taughtCourses, Set<Course> enrolledCourses) {
+//		super();
+//		this.userId = userId;
+//		this.username = username;
+//		this.password = password;
+//		this.authorities = authorities;
+//		this.taughtCourses = taughtCourses;
+//		this.enrolledCourses = enrolledCourses;
+//	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

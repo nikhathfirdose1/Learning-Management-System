@@ -2,56 +2,44 @@ package com.sjsu.vansbackend.courses;
 
 import com.sjsu.vansbackend.assignments.Assignment;
 import com.sjsu.vansbackend.quiz.Quiz;
+import com.sjsu.vansbackend.userAuth.models.ApplicationUser;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @Entity
 public class Course {
-  @Id String courseId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-  String name;
-
-  String description;
-
-//  @ManyToOne
-//  @JoinTable(name = "professor")
-//  UserEntity professor;
-//
-//  @ManyToMany
-//  @JoinTable(name = "students")
-//  List<UserEntity> students;
-
-  Boolean isPublished;
+  private String courseId;
+  private String name;
+  private String description;
+  private Boolean isPublished;
 
   @Column(length = 10000)
-  String syllabus;
+  private String syllabus;
 
-  String term;
+  private String term;
+
+  @ManyToOne
+  private ApplicationUser professor;
+
+  @ManyToMany(mappedBy = "enrolledCourses")
+  private Set<ApplicationUser> participants;
+
 
   @OneToMany(mappedBy = "course")
-    List<Assignment> assignments;
+  private List<Assignment> assignments;
 
   @OneToMany(mappedBy = "course")
-    List<Quiz> quizzes;
+  private List<Quiz> quizzes;
 
-
-  public Course(
-      String name,
-      String description,
-
-      Boolean isPublished,
-      String syllabus,
-      String term) {
-    this.name = name;
-    this.description = description;
-    this.isPublished = isPublished;
-    this.syllabus = syllabus;
-    this.term = term;
-
-  }
 }
