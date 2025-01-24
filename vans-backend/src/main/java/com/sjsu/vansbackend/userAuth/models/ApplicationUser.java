@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Data
-public class ApplicationUser implements UserDetails {
+public class ApplicationUser implements UserDetails { // this makes the application treat it as a user object, UserDetails is from interface from Springboot
 
     @Id
     @Column(unique = true)

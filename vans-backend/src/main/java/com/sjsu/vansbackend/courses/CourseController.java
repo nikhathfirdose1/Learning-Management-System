@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-@RestController
-@RequestMapping("/course")
+@RestController // define a class as Controller, closer Backed server
+@RequestMapping("/course") // routes that have course, comes here. 
 public class CourseController {
-    private final CourseService courseService;
-
-    private final UserRepository userRepository;
+    private final CourseService courseService; // ether final or autowired annotation, creates a singleton object 
+    private final UserRepository userRepository; 
     private final CourseRepository courseRepository;
 
     public CourseController(CourseService courseService, UserRepository userRepository, CourseRepository courseRepository) {
@@ -23,7 +22,6 @@ public class CourseController {
     }
 
     // Retrieve (GET Request)
-
     // Get course object based on courseId
     @GetMapping("/{courseId}")
     public CourseDTO getCourseInfo(@PathVariable Integer courseId) {
@@ -32,7 +30,7 @@ public class CourseController {
 
     // Get all course objects
     @GetMapping("/list")
-    public ResponseEntity<List<CourseDTO>> getAllCourses(Principal principal) {
+    public ResponseEntity<List<CourseDTO>> getAllCourses(Principal principal) { // principle is the object of the user who is making this request, How do you know? JWT RBAC
         ApplicationUser user = userRepository.findByUsername(principal.getName()).get();
         List<CourseDTO> courses = switch (user.getRole()) {
             case "PROFESSOR" -> courseService.getCourseByProfessorUsername(user.getUsername());
@@ -51,3 +49,4 @@ public class CourseController {
         return CourseDTO.convertToCourseDTO(course);
     }
 }
+

@@ -15,7 +15,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseDTO {
+public class CourseDTO { // object sent to the FE, ie the request 
     private Integer id;
     private String name;
     private String description;
@@ -31,7 +31,7 @@ public class CourseDTO {
     private List<QuizDTO> quizzes;
     private List<Announcement> announcements;
 
-    public static CourseDTO convertToCourseDTO(Course course) {
+    public static CourseDTO convertToCourseDTO(Course course) { // convert course object to DTO with ease
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setId(course.getId());
         courseDTO.setCourseCode(course.getCode());

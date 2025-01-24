@@ -4,7 +4,7 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import lombok.Data;
+// import lombok.Data;
 import org.springframework.stereotype.Component;
 
 @Component

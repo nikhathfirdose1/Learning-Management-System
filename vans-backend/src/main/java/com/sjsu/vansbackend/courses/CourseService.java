@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service // Core logic is not added to controller, and added at service and utilised in controller. It is middle layer between Repository and Controller 
 public class CourseService {
     private final CourseRepository courseRepository;
 
